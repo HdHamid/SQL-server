@@ -1,0 +1,27 @@
+
+# [Create OBV indicator (KPI)](https://www.investopedia.com/terms/o/onbalancevolume.asp)
+
+## Defination
+On-balance volume (OBV) is a technical trading momentum indicator that uses volume flow to predict changes in stock price. 
+
+## Code
+```bash
+;WITH a AS
+(
+	SELECT *,ROW_NUMBER() OVER(ORDER BY RowNo) as Rn1 FROM #Fact
+)
+UPDATE A SET A.ID = RN1 FROM A
+
+drop table if exists #Obv
+DECLARE @MinDate int = (select min(RowNo) from #Fact)
+
+;WITH Rcrsv as(
+select t.*,Volume as OBV from #Fact t where t.RowNo = @MinDate
+Union ALL
+select t.*,
+case when t.[Close] = r.[Close] then r.OBV when t.[Close] > r.[Close] 
+then r.OBV+t.Volume when t.[Close] < r.[Close] then r.OBV-t.Volume end 
+from #Fact t inner join Rcrsv r on r.ID+1 = t.iD
+)
+select * into #Obv from Rcrsv  option (maxrecursion 0)
+```
