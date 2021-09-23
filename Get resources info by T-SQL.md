@@ -54,13 +54,16 @@ from (
 			where ring_buffer_type = N'RING_BUFFER_SCHEDULER_MONITOR'            and record like '%SystemHealth%'
 			) as x    
 	) as y    
+	Order By record_id Desc 
 )
-select 
- COUNT(1) as TraceCount
-,DateDiff(MINUTE,Min(EventTime),Max(EventTime)) as TimeRange_Minute
-,AVG(SQLProcessUtilization) as SQLProcessUtilization_prcnt
-,AVG(SystemIdle) as SystemIdle_prcnt
-,AVG(OtherProcessUtilization) as OtherProcessUtilization_prcnt
-from stp1
+	select 
+	 COUNT(1) as TraceCount
+	,Max(EventTime) as CurrentTime
+	,DateDiff(MINUTE,Min(EventTime),Max(EventTime)) as TimeRange_Minute
+	,AVG(SQLProcessUtilization) as SQLProcessUtilization_prcnt
+	,AVG(SystemIdle) as SystemIdle_prcnt
+	,AVG(OtherProcessUtilization) as OtherProcessUtilization_prcnt
+	from stp1
+
 
 ```
