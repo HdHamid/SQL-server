@@ -2,6 +2,8 @@
 
 ## CPU
 
+Use @cnt to determine minutes range from a time before the current time, therefore it makes a report based on the average percent of CPU usage.
+
 ```bash
 declare @ms_now bigint  
 
