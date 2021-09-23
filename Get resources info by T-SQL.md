@@ -1,30 +1,4 @@
 # Get resources info by T-SQL
-## Memory
-```bash
-   declare @CurrMemory int
-   declare @SqlMaxMemory int
-   declare @OSMaxMemory int
-   declare @OSAvailableMemory int 
- 
-   -- #SQL memory
-   SELECT 
-      @CurrMemory = (committed_kb/1024),
-      @SqlMaxMemory = (committed_target_kb/1024)           
-   FROM sys.dm_os_sys_info;
-   
-   -- #OS memory
-   SELECT 
-      @OSMaxMemory = (total_physical_memory_kb/1024),
-      @OSAvailableMemory = (available_physical_memory_kb/1024) 
-   FROM sys.dm_os_sys_memory;
-   
-   select    
-     @CurrMemory	AS SQL_current_Memory_usage_mb	
-   , @SqlMaxMemory	AS SQL_Max_Memory_target_mb		
-   , @OSMaxMemory	AS OS_Total_Memory_mb			
-   , @OSAvailableMemory	AS OS_Available_Memory_mb	
-   , FORMAT(@CurrMemory*1.00/@OSMaxMemory,'0.##%') AS SqlUsagePrcnt
-```
 
 ## CPU
 
@@ -66,4 +40,33 @@ select
 from stp1
 
 
+```
+
+
+
+## Memory
+```bash
+   declare @CurrMemory int
+   declare @SqlMaxMemory int
+   declare @OSMaxMemory int
+   declare @OSAvailableMemory int 
+ 
+   -- #SQL memory
+   SELECT 
+      @CurrMemory = (committed_kb/1024),
+      @SqlMaxMemory = (committed_target_kb/1024)           
+   FROM sys.dm_os_sys_info;
+   
+   -- #OS memory
+   SELECT 
+      @OSMaxMemory = (total_physical_memory_kb/1024),
+      @OSAvailableMemory = (available_physical_memory_kb/1024) 
+   FROM sys.dm_os_sys_memory;
+   
+   select    
+     @CurrMemory	AS SQL_current_Memory_usage_mb	
+   , @SqlMaxMemory	AS SQL_Max_Memory_target_mb		
+   , @OSMaxMemory	AS OS_Total_Memory_mb			
+   , @OSAvailableMemory	AS OS_Available_Memory_mb	
+   , FORMAT(@CurrMemory*1.00/@OSMaxMemory,'0.##%') AS SqlUsagePrcnt
 ```
