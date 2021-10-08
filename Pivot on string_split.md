@@ -1,6 +1,4 @@
-# Get resources info by T-SQL
-
-## CPU
+# Columnar_String_Split
 
 If you want to seperate strings in multiple columns you can use this T-SQL code.
 
