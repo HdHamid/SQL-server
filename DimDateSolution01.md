@@ -5,6 +5,7 @@ You can use of DimDate that I left it [here](FillDimDate.sql) before
 
 
 ```bash
+
 -- DimDate preparing .. 
 Drop table if exists #Stp00
 ;WITH STP1 AS 
@@ -22,7 +23,7 @@ from #Stp00 e inner join StockMarketDW.DW.DimDate sc on FrYear+FrMonth = e.Persi
 ------================================================ 
 
 drop table if exists #DimDate
-select Frdt as PERSIANDATE ,FrDay as PersianDay,SeqPersianYearMonth 
+select Frdt as PERSIANDATE ,FrDay as PersianDay,SeqPersianYearMonth,SeqID
 into #DimDate from StockMarketDW.DW.DimDate
 
 
@@ -69,16 +70,25 @@ GROUP BY ID,StartDate,EndDate,Jumper,StartDay,SeqPersianYearMonth
 
 CREATE CLUSTERED INDEX IX ON #Stp2 (ID,RowNo)
 
-
+DROP TABLE IF EXISTS #Res1
 ;WITH stp3 AS 
 (
 	SELECT S2.ROWNO,S2.ID,S2.StartDate,S2.EndDate,S2.Jumper,S2.PersianDate AS WindowFrom
 	,LEAD(PersianDate) OVER(PARTITION BY ID ORDER BY ROWNO) AS WindowTo FROM #Stp2 S2 
 )
-SELECT S3.ID,S3.RowNo,S3.StartDate,S3.EndDate,S3.Jumper,S3.WindowFrom,S3.WindowTo,COUNT(1) AS DaysBetween FROM stp3 s3 
+SELECT S3.ID,S3.RowNo,S3.StartDate,S3.EndDate,S3.Jumper,S3.WindowFrom,S3.WindowTo,COUNT(1) AS DaysBetween 
+	INTO #Res1
+FROM stp3 s3 
 	INNER JOIN #DimDate D ON D.PersianDate BETWEEN S3.WindowFrom AND S3.WindowTo AND WindowTo IS NOT NULL 
 GROUP BY S3.ID,S3.RowNo,S3.StartDate,S3.EndDate,S3.Jumper,S3.WindowFrom,S3.WindowTo
 ORDER BY S3.ID,S3.RowNo
 
+
+-- If it is supposed to be not equal to the next row
+select r.ID,r.RowNo,r.StartDate,r.EndDate,r.DaysBetween - 1 as DaysBetween,r.Jumper,r.WindowFrom,iif(EndDate = WindowTo , WindowTo , d2.PERSIANDATE) WindowTo 
+from #Res1 r 
+	inner join #DimDate d on r.WindowTo = d.PERSIANDATE 
+	inner join #DimDate d2 on d2.SeqID = d.SeqID - 1 
+ORDER BY r.ID,r.RowNo
 
 ```
