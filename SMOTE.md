@@ -127,7 +127,7 @@ Here I calculated the distance of observations by using Euclidean distance.
 SELECT * INTO #GETRAND_NN FROM GETRAND_NN WHERE RANDKNN = 1
 ```
 
-And for the last step I calculate some random points based on each class observations (between them)
+And for the last step, I calculate some random points based on each class observation (between them)
 ```bash
 ;WITH SAMPLES_Fin as
 (SELECT *
