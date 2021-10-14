@@ -1,8 +1,8 @@
 # SMOTE WITH T-SQL
-Smote algorithm is based on KNN, and here I'm going to show you how to implement it using T-SQL.
+## Smote algorithm is based on KNN, and here I'm going to show you how to implement it using T-SQL.
 
 
-## At first, I'm supposed to create sample data, so here is my code.
+At first, I'm supposed to create sample data, so here is my code.
 ```bash
 drop table if exists ###Vectores
 create table ##Vectores 
