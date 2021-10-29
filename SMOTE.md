@@ -52,8 +52,8 @@ As a result of the previous step, you can see this picture from Power BI
 
 ![Image of Yaktocat](https://github.com/HdHamid/SQL-server/blob/T-Sql-Scripts/Smote1.jpg)
 
-As you see, there are three classes here and one of them has the most records and it can make Bias a side effect.
-Therefore I'm going to implement Smote to generate some records for the other two classes. You can see the T-SQL code in the following.
+As you see, there are three classes here and one of them has the most observations and it can make Bias a side effect.
+Therefore I'm going to implement Smote to generate some observations for the other two classes. You can see the T-SQL code in the following.
 
 First, we find two classes with less data:
 ```bash 
