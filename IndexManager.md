@@ -1,6 +1,6 @@
 # A procedure to manage your indexes
 
-You can use a cursor to execute commands from the "COMMAND" Column.
+You can use a cursor to execute commands from the "COMMAND" Column in a job.
 ```bash
 CREATE procedure [dbo].[IndxMngr] 
 as 
