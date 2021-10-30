@@ -15,8 +15,9 @@ create table #TblIndx (
 ,avg_fragmentation_in_percent int
 ,page_count int
 )
+
+begin try 
 insert into #TblIndx([schema_name],table_name,index_name,partition_number,index_type_desc,index_depth,avg_fragmentation_in_percent,page_count)
-exec sp_executesql @stmt=N'begin try 
 			select t4.name as [schema_name]
 			,       t3.name as table_name
 			,       t2.name as index_name
@@ -25,11 +26,11 @@ exec sp_executesql @stmt=N'begin try
 			,		t1.index_depth
 			,		t1.avg_fragmentation_in_percent
 			,		t1.page_count
-			from sys.dm_db_index_physical_stats(db_id(),NULL,NULL,NULL,''LIMITED'' ) t1
+			from sys.dm_db_index_physical_stats(db_id(),NULL,NULL,NULL,'LIMITED' ) t1
 			inner join sys.objects t3 on (t1.object_id = t3.object_id)
 			inner join sys.schemas t4 on (t3.schema_id = t4.schema_id)
 			inner join sys.indexes t2 on (t1.object_id = t2.object_id and  t1.index_id = t2.index_id )
-			where index_type_desc <> ''HEAP'' and index_type_desc <> ''HASH INDEX''
+			where index_type_desc <> 'HEAP' and index_type_desc <> 'HASH INDEX'
 			order by t4.name,t3.name,t2.name,partition_number
 			end try
 			begin catch
@@ -48,7 +49,9 @@ exec sp_executesql @stmt=N'begin try
 			,		1 as fragment_count
 			,		1 as avg_fragment_size_in_pages
 			,		1 as page_count
-			end catch',@params=N''
+			
+			return 
+			end catch
 
 
 
