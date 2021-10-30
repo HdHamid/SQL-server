@@ -4,6 +4,7 @@ You can use a cursor to execute commands from the "COMMAND" Column in a job.
 ```bash
 CREATE procedure [dbo].[IndxMngr] 
 as 
+
 drop table if exists #TblIndx
 create table #TblIndx (
 [schema_name] nvarchar(100)
@@ -32,8 +33,8 @@ insert into #TblIndx([schema_name],table_name,index_name,partition_number,index_
 			inner join sys.indexes t2 on (t1.object_id = t2.object_id and  t1.index_id = t2.index_id )
 			where index_type_desc <> 'HEAP' and index_type_desc <> 'HASH INDEX'
 			order by t4.name,t3.name,t2.name,partition_number
-			end try
-			begin catch
+end try
+begin catch
 			select -100 as l1
 			,       ERROR_NUMBER() as l2
 			,       ERROR_SEVERITY() as l3
@@ -51,7 +52,7 @@ insert into #TblIndx([schema_name],table_name,index_name,partition_number,index_
 			,		1 as page_count
 			
 			return 
-			end catch
+end catch
 
 
 
