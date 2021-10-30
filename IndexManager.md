@@ -1,4 +1,4 @@
-# A procedure to manage your indexes
+# A procedure to manage indexes
 
 You can use a cursor to execute commands from the "COMMAND" Column in a job.
 ```bash
