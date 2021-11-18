@@ -5,7 +5,7 @@ but I'm here to show you how do you can make your set base fuzzy search procedur
 
 Let's start 
 
-At the beginning, I'm going to define Input Parameters
+In the beginning, I'm going to define Input Parameters
 ```bash
 
 USE TempDb
