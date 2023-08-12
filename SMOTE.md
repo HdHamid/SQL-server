@@ -4,7 +4,7 @@
 
 At first, I'm supposed to create sample data, so here is my code.
 ```bash
-drop table if exists ###Vectores
+drop table if exists ##Vectores
 create table ##Vectores 
 (
 ID int identity(1,1),
